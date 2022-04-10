@@ -1,8 +1,10 @@
 from cProfile import label
+from fileinput import filename
 from msilib.schema import File
 from struct import pack
 from tkinter import *
 import tkinter
+from tkinter import filedialog
 import tkinter.messagebox
 from matplotlib import scale
 from pygame import mixer
@@ -16,9 +18,14 @@ root.iconbitmap(r'img\\log1.ico')
 menubar = Menu(root)
 root.config(menu=menubar)
 
+def browse_file():
+    global filename
+    filename =filedialog.askopenfilename()
+    print(filename)
+
 subMenu = Menu(menubar, tearoff=0)
 menubar.add_cascade(label="File", menu=subMenu)
-subMenu.add_command(label="Open")
+subMenu.add_command(label="Open", command=browse_file)
 subMenu.add_command(label="Exit", command=root.destroy)
 
 def about_us():
@@ -32,7 +39,7 @@ text = Label(root, text="Let's Play Music to Rock").pack()
 
 def play():
     print("Lets play music")
-    mixer.music.load("songs\\Black.mp3")
+    mixer.music.load(filename)
     mixer.music.play()
 
 play_pic = PhotoImage(file="img\\play6.png", height=100, width=100)
