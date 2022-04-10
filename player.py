@@ -8,6 +8,7 @@ from tkinter import filedialog
 import tkinter.messagebox
 from matplotlib import scale
 from pygame import mixer
+from sqlalchemy import true
 
 root = Tk()
 mixer.init()
@@ -38,26 +39,36 @@ subMenu.add_command(label='About Us', command=about_us)
 text = Label(root, text="Let's Play Music to Rock").pack()
 
 def play():
-    print("Lets play music")
-    mixer.music.load(filename)
-    mixer.music.play()
+    try:
+        paused
+    except NameError:
+        try:
+            mixer.music.load(filename)
+            mixer.music.play()
+        except:
+            tkinter.messagebox.showerror("File not found..!!!", 'Please select Music.')
+    
+    else:
+        mixer.music.unpause()
 
 play_pic = PhotoImage(file="img\\play6.png", height=100, width=100)
 play_Btn = Button(root,image = play_pic, height=100, width=100, command=play).pack()
 
-def stop():
-    print("Stoping music")
-    mixer.music.stop()
+def pause():
+    print("Music Pause")
+    global paused
+    paused = True
+    mixer.music.pause()
     
 stop_pic = PhotoImage(file="img\\stop.png")
-stop_btn = Button(root, image= stop_pic, height=100, width=100, command=stop).pack()
+stop_btn = Button(root, image= stop_pic, height=100, width=100, command=pause).pack()
 
 def set_volume(val):
     volume = int(val)/100
     mixer.music.set_volume(volume)
 
 volume = Scale(root,from_= 0,to= 100,orient= HORIZONTAL, command=set_volume)
-volume.set(10)
+volume.set(50)
 volume.pack()
 
 root.mainloop()
