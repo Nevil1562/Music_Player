@@ -1,6 +1,9 @@
 from cProfile import label
+from msilib.schema import File
 from struct import pack
 from tkinter import *
+import tkinter
+import tkinter.messagebox
 from matplotlib import scale
 from pygame import mixer
 
@@ -9,6 +12,21 @@ mixer.init()
 root.geometry("600x450")
 root.title("Music Player")
 root.iconbitmap(r'img\\log1.ico')
+
+menubar = Menu(root)
+root.config(menu=menubar)
+
+subMenu = Menu(menubar, tearoff=0)
+menubar.add_cascade(label="File", menu=subMenu)
+subMenu.add_command(label="Open")
+subMenu.add_command(label="Exit", command=root.destroy)
+
+def about_us():
+    tkinter.messagebox.showinfo('About Player', 'This is a music player not your toy')
+
+subMenu = Menu(menubar, tearoff=0)
+menubar.add_cascade(label='Help', menu=subMenu)
+subMenu.add_command(label='About Us', command=about_us)
 
 text = Label(root, text="Let's Play Music to Rock").pack()
 
